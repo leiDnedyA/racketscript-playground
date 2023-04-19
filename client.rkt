@@ -54,13 +54,11 @@
                      [sizes        [$/array 75 25]]
                      [gutterSize   *split-gutter-size*]}))
 
-(define (add-button-onclick button-id func)
-  (define compile-btn (#js*.document.querySelector (js-string (string-append "#" button-id))))
-  (#js.compile-btn.addEventListener #js"click" func)
-)
 
 (define (register-button-events!)
-
+  (define (add-button-onclick button-id func)
+    (define compile-btn (#js*.document.querySelector (js-string (string-append "#" button-id))))
+    (#js.compile-btn.addEventListener #js"click" func))
   (add-button-onclick "btn-compile" (λ (e)
                (#js.e.preventDefault)
                (compile #f)))
