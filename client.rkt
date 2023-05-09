@@ -294,6 +294,14 @@
   ($> (query-selector "#error-modal p")
       (text (js-string msg))))
 
+;;; (define (show-error title msg)
+;;;   ($> (#js.jQuery #js"#error-modal")
+;;;                   (modal #js"show"))
+;;;   ($> (#js.jQuery #js"#error-modal .modal-title")
+;;;       (text (js-string title)))
+;;;   ($> (#js.jQuery #js"#error-modal p")
+;;;       (text (js-string msg))))
+
 ;;-------------------------------------------------------------------------------
 
 (define (load-racket-example example-name)
