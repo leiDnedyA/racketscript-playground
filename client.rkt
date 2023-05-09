@@ -286,21 +286,21 @@
 
 ;;-------------------------------------------------------------------------------
 
-(define (show-error title msg)
-  ($> (query-selector "#error-modal")
-                  (modal #js"show"))
-  ($> (query-selector "#error-modal .modal-title")
-      (text (js-string title)))
-  ($> (query-selector "#error-modal p")
-      (text (js-string msg))))
-
 ;;; (define (show-error title msg)
-;;;   ($> (#js.jQuery #js"#error-modal")
+;;;   ($> (query-selector "#error-modal")
 ;;;                   (modal #js"show"))
-;;;   ($> (#js.jQuery #js"#error-modal .modal-title")
+;;;   ($> (query-selector "#error-modal .modal-title")
 ;;;       (text (js-string title)))
-;;;   ($> (#js.jQuery #js"#error-modal p")
+;;;   ($> (query-selector "#error-modal p")
 ;;;       (text (js-string msg))))
+
+(define (show-error title msg)
+  ($> (#js.jQuery #js"#error-modal")
+                  (modal #js"show"))
+  ($> (#js.jQuery #js"#error-modal .modal-title")
+      (text (js-string title)))
+  ($> (#js.jQuery #js"#error-modal p")
+      (text (js-string msg))))
 
 ;;-------------------------------------------------------------------------------
 
