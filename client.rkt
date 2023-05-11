@@ -187,41 +187,41 @@
     (#js.cm-editor-console.setValue #js"Console Log:\n")
     (#js.cm-editor-jsout.setValue #js"Compiling ...")
 
-    ;;; ($> (#js.jQuery.post #js"/compile" {$/obj [code (#js.cm-editor-racket.getValue)]})
-    ;;;       (done (λ (data)
-    ;;;               (set-javascript-code data)
-    ;;;               (when execute?
-    ;;;                 (run))))
-    ;;;       (fail (λ (xhr status err)
-    ;;;               (#js.cm-editor-console.setValue
-    ;;;               ($/binop + #js"Compilation error:\n" #js.xhr.responseText))
-    ;;;               (#js.cm-editor-jsout.setValue #js"")))
-    ;;;       (always (λ ()
-    ;;;                 (:= compiling? #f))))
+    ($> (#js.jQuery.post #js"/compile" {$/obj [code (#js.cm-editor-racket.getValue)]})
+          (done (λ (data)
+                  (set-javascript-code data)
+                  (when execute?
+                    (run))))
+          (fail (λ (xhr status err)
+                  (#js.cm-editor-console.setValue
+                  ($/binop + #js"Compilation error:\n" #js.xhr.responseText))
+                  (#js.cm-editor-jsout.setValue #js"")))
+          (always (λ ()
+                    (:= compiling? #f))))
     ;;; TODO: Error handling for this POST req
-    ($> (#js*.fetch #js"/compile" {$/obj 
-                [method "POST"]
-                [headers {$/obj
-                  [Content-type (js-string "application/json; charset=utf-8")]}]
-                [body 
-                  (#js*.JSON.stringify {$/obj [code (#js.cm-editor-racket.getValue)]})]
-        })
-        (then (λ (response)
-                (if #js.response.ok
-                  (#js.response.json)
-                  (λ ()
-                    ((#js.cm-editor-console.setValue
-                    ($/binop + #js"Compilation error:\n" #js"failed to compile"))
-                    (#js.cm-editor-jsout.setValue #js""))
-                  )
-                  ;;; (#js*.console.log #js"sadface")
-                  )))
-        (then (λ (data)
-                (set-javascript-code data)
-                (when execute?
-                  (run))))
-        (then (λ ()
-                  (:= compiling? #f))))
+    ;;; ($> (#js*.fetch #js"/compile" {$/obj 
+    ;;;             [method "POST"]
+    ;;;             [headers {$/obj
+    ;;;               [Content-type (js-string "application/json; charset=utf-8")]}]
+    ;;;             [body 
+    ;;;               (#js*.JSON.stringify {$/obj [code (#js.cm-editor-racket.getValue)]})]
+    ;;;     })
+    ;;;     (then (λ (response)
+    ;;;             (if #js.response.ok
+    ;;;               (#js.response.json)
+    ;;;               (λ ()
+    ;;;                 ((#js.cm-editor-console.setValue
+    ;;;                 ($/binop + #js"Compilation error:\n" #js"failed to compile"))
+    ;;;                 (#js.cm-editor-jsout.setValue #js""))
+    ;;;               )
+    ;;;               ;;; (#js*.console.log #js"sadface")
+    ;;;               )))
+    ;;;     (then (λ (data)
+    ;;;             (set-javascript-code data)
+    ;;;             (when execute?
+    ;;;               (run))))
+    ;;;     (then (λ ()
+    ;;;               (:= compiling? #f))))
     ))
 
 ;;-----------------------------------------------------------------------------
@@ -243,25 +243,25 @@
   (#js.btn.classList.add #js"d-none")
   )
 
-;;; (define (do-logged-in)
-;;;   ($> (get-element-by-id "btn-save") (show))
-;;;   ($> (get-element-by-id "btn-logout") (show))
-;;;   ($> (get-element-by-id "btn-login") (hide)))
-
 (define (do-logged-in)
-  (show-button (get-element-by-id "btn-save"))
-  (show-button (get-element-by-id "btn-logout"))
-  (hide-button (get-element-by-id "btn-login")))
+  ($> (jQuery #js"#btn-save") (show))
+  ($> (jQuery #js"#btn-logout") (show))
+  ($> (jQuery #js"#btn-login") (hide)))
 
-;;; (define (do-logged-out)
-;;;   ($> (get-element-by-id "btn-save") (hide))
-;;;   ($> (get-element-by-id "btn-logout") (hide))
-;;;   ($> (get-element-by-id "btn-login") (show)))
+;;; (define (do-logged-in)
+;;;   (show-button (get-element-by-id "btn-save"))
+;;;   (show-button (get-element-by-id "btn-logout"))
+;;;   (hide-button (get-element-by-id "btn-login")))
 
 (define (do-logged-out)
-  (hide-button (get-element-by-id "btn-save"))
-  (hide-button (get-element-by-id "btn-logout"))
-  (show-button (get-element-by-id "btn-login")))
+  ($> (jQuery #js"#btn-save") (hide))
+  ($> (jQuery #js"#btn-logout") (hide))
+  ($> (jQuery #js"#btn-login") (show)))
+
+;;; (define (do-logged-out)
+;;;   (hide-button (get-element-by-id "btn-save"))
+;;;   (hide-button (get-element-by-id "btn-logout"))
+;;;   (show-button (get-element-by-id "btn-login")))
 
 (define (logout)
   (#js*.fetch #js"/logout"))
