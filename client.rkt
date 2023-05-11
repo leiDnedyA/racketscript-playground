@@ -235,15 +235,33 @@
                 (do-logged-in)
                 (do-logged-out))))))
 
+(define (hide-button btn)
+  (#js.btn.classList.remove #js"d-none")
+  )
+
+(define (show-button btn)
+  (#js.btn.classList.add #js"d-none")
+  )
+
+;;; (define (do-logged-in)
+;;;   ($> (get-element-by-id "btn-save") (show))
+;;;   ($> (get-element-by-id "btn-logout") (show))
+;;;   ($> (get-element-by-id "btn-login") (hide)))
+
 (define (do-logged-in)
-  ($> (get-element-by-id "btn-save") (show))
-  ($> (get-element-by-id "btn-logout") (show))
-  ($> (get-element-by-id "btn-login") (hide)))
+  (show-button (get-element-by-id "btn-save"))
+  (show-button (get-element-by-id "btn-logout"))
+  (hide-button (get-element-by-id "btn-login")))
+
+;;; (define (do-logged-out)
+;;;   ($> (get-element-by-id "btn-save") (hide))
+;;;   ($> (get-element-by-id "btn-logout") (hide))
+;;;   ($> (get-element-by-id "btn-login") (show)))
 
 (define (do-logged-out)
-  ($> (get-element-by-id "btn-save") (hide))
-  ($> (get-element-by-id "btn-logout") (hide))
-  ($> (get-element-by-id "btn-login") (show)))
+  (hide-button (get-element-by-id "btn-save"))
+  (hide-button (get-element-by-id "btn-logout"))
+  (show-button (get-element-by-id "btn-login")))
 
 (define (logout)
   (#js*.fetch #js"/logout"))
