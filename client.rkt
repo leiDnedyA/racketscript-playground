@@ -187,42 +187,42 @@
     (#js.cm-editor-console.setValue #js"Console Log:\n")
     (#js.cm-editor-jsout.setValue #js"Compiling ...")
 
-    ($> (#js.jQuery.post #js"/compile" {$/obj [code (#js.cm-editor-racket.getValue)]})
-          (done (λ (data)
-                  (set-javascript-code data)
-                  (when execute?
-                    (run))))
-          (fail (λ (xhr status err)
-                  (#js.cm-editor-console.setValue
-                  ($/binop + #js"Compilation error:\n" #js.xhr.responseText))
-                  (#js.cm-editor-jsout.setValue #js"")))
-          (always (λ ()
-                    (:= compiling? #f))))
+    ;;; ($> (#js.jQuery.post #js"/compile" {$/obj [code (#js.cm-editor-racket.getValue)]})
+    ;;;       (done (λ (data)
+    ;;;               (set-javascript-code data)
+    ;;;               (when execute?
+    ;;;                 (run))))
+    ;;;       (fail (λ (xhr status err)
+    ;;;               (#js.cm-editor-console.setValue
+    ;;;               ($/binop + #js"Compilation error:\n" #js.xhr.responseText))
+    ;;;               (#js.cm-editor-jsout.setValue #js"")))
+    ;;;       (always (λ ()
+    ;;;                 (:= compiling? #f))))
     ;;; TODO: Error handling for this POST req
-    ;;; ($> (#js*.fetch #js"/compile" {$/obj 
-    ;;;             [method "POST"]
-    ;;;             [headers {$/obj
-    ;;;               [Content-type (js-string "application/json; charset=utf-8")]}]
-    ;;;             [body 
-    ;;;               (#js*.JSON.stringify {$/obj [code (#js.cm-editor-racket.getValue)]})]
-    ;;;     })
-    ;;;     (then (λ (response)
-    ;;;             (if #js.response.ok
-    ;;;               (#js.response.json)
-    ;;;               (λ ()
-    ;;;                 ((#js.cm-editor-console.setValue
-    ;;;                 ($/binop + #js"Compilation error:\n" #js"failed to compile"))
-    ;;;                 (#js.cm-editor-jsout.setValue #js""))
-    ;;;               )
-    ;;;               ;;; (#js*.console.log #js"sadface")
-    ;;;               )))
-    ;;;     (then (λ (data)
-    ;;;             (set-javascript-code data)
-    ;;;             (when execute?
-    ;;;               (run))))
-    ;;;     (then (λ ()
-    ;;;               (:= compiling? #f))))
-    ))
+    ($> (#js*.fetch #js"/compile" {$/obj 
+                [method "POST"]
+                [headers {$/obj
+                  [Content-type (js-string "application/json; charset=utf-8")]}]
+                [body 
+                  (#js*.JSON.stringify {$/obj [code (#js.cm-editor-racket.getValue)]})]
+        })
+        (then (λ (response)
+                (if #js.response.ok
+                  (#js.response.text)
+                  (λ ()
+                    ((#js.cm-editor-console.setValue
+                    ($/binop + #js"Compilation error:\n" #js"failed to compile"))
+                    (#js.cm-editor-jsout.setValue #js""))
+                  )
+                  )
+                  ))
+        (then (λ (data)
+                (set-javascript-code data)
+                (when execute?
+                  (run))))
+        (then (λ ()
+                  (:= compiling? #f)))
+      )))
 
 ;;-----------------------------------------------------------------------------
 ;; Login, Save, and Load Gist
