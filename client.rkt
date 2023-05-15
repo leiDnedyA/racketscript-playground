@@ -237,14 +237,16 @@
 
 (define (hide-button btn)
   (if (#js.btn.classList.contains #js"d-none")
-    (#js.btn.classList.remove #js"d-none")
-    0)
+    0
+    (#js.btn.classList.add #js"d-none")
+    ; (#js*.console.log (js-string (string-append "hiding button: " (js-string->string #js.btn.id))))
+    )
   )
 
 (define (show-button btn)
   (if (#js.btn.classList.contains #js"d-none")
+    (#js.btn.classList.remove #js"d-none")
     0
-    (#js.btn.classList.add #js"d-none")
     )
   )
 
