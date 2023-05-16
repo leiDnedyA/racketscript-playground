@@ -312,7 +312,7 @@
 ;;-------------------------------------------------------------------------------
 
 (define (get-modal id)
-  ($/new (#js*.bootstrap.Modal (query-selector id)))
+  ($/new (#js*.bootstrap.Modal (js-string id)))
   )
 
 (define (show-error title msg)
